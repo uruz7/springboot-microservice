@@ -1,14 +1,14 @@
-#This is a simple docker Spring Boot app
+# This is a simple docker Spring Boot app
 
-##How to run
+## How to run
 
-###Install Docker first
+### Install Docker first
 
 Download Docker from [here]:https://www.docker.com/
 
 Windows 7 please use Docker Toolbox
 
-###Run from command line
+### Run from command line
 
 $ ./gradlew build buildDocker
 
