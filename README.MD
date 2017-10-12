@@ -4,7 +4,7 @@
 
 ### Install Docker first
 
-Download Docker from [here]:https://www.docker.com/
+Download Docker from [here] : https://www.docker.com/
 
 Windows 7 please use Docker Toolbox
 
