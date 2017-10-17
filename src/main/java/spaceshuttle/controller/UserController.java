@@ -6,7 +6,7 @@ import spaceshuttle.model.User;
 import spaceshuttle.repository.UserRepository;
 
 @RestController
-@RequestMapping(path = "/users") // This means URL's start with /user (after Application path)
+@RequestMapping("/users") // This means URL's start with /user (after Application path)
 
 public class UserController {
 
