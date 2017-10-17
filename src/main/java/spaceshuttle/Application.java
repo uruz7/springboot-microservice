@@ -42,6 +42,6 @@ public class Application {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.regex("/users.*"))
-                .build().pathMapping("/");
+                .build().pathMapping("/v1/apidocs");
     }
 }
