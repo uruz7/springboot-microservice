@@ -45,8 +45,8 @@ dependencies {
 
     testCompile("junit:junit")
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-    testCompile("io.projectreactor:reactor-test:3.1.0.M1")
-    testCompile("com.h2database:h2")
+    testCompile("io.projectreactor.addons:reactor-test:3.1.0.M1")
+    testCompile("com.h2database:h2:1.4.196")
 
 
 }
