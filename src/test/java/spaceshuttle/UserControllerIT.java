@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
+//import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,8 @@ import static org.junit.Assert.assertThat;
 @TestPropertySource("classpath:h2-db.properties")
 public class UserControllerIT {
 
-    @LocalServerPort
-    private int port;
+//    @LocalServerPort
+    private int port=9999;
 
     private URL base;
 
