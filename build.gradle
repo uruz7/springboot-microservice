@@ -1,6 +1,3 @@
-group 'au.com.jiangren'
-version '1.0-SNAPSHOT'
-
 buildscript {
     repositories {
         mavenCentral()
@@ -12,11 +9,21 @@ buildscript {
     }
 }
 
+plugins {
+    id 'org.hidetake.swagger.generator' version '2.8.0'
+}
+
+group 'au.com.jiangren'
+version '1.0-SNAPSHOT'
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'docker'
+
+
+
 
 jar {
     baseName = 'spring-boot-microservice'
@@ -45,7 +52,9 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("com.h2database:h2")
 
-
+    // swagger
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+    swaggerUI 'org.webjars:swagger-ui:2.2.6'
 }
 
 task buildDocker(type: Docker, dependsOn: build) {
@@ -55,6 +64,19 @@ task buildDocker(type: Docker, dependsOn: build) {
         copy {
             from jar
             into "${stageDir}/target"
+        }
+    }
+}
+
+swaggerSources {
+    spaceshuttle {
+        inputFile = file('swagger/spaceshuttle.yml')
+        code {
+            language = 'spring'
+            configFile = file('swagger/config.json')
+        }
+        ui {
+            options.docExpansion = 'full'
         }
     }
 }
