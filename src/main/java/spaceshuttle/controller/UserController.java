@@ -1,7 +1,9 @@
 package spaceshuttle.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
 import spaceshuttle.repository.UserRepository;
 
@@ -26,24 +28,54 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping // Map ONLY GET Requests
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    String addNewUser(@RequestParam String username
-            , @RequestParam String password) {
+    APIResponse addUser(@RequestBody User newUser) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        User newUser = new User();
-        newUser.setUsername(username);
-        newUser.setPassword(password);
-        userRepository.save(newUser);
-        return "Saved";
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setSuccess(true);
+        apiResponse.setErrorCode("123");
+        apiResponse.setResponseObject(userRepository.save(newUser));
+        return apiResponse;
     }
 
-    @PostMapping// Map ONLY GET Requests
+    @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public @ResponseBody
-    User addUser(@RequestBody User newUser) {
+    APIResponse addUserByXML(@RequestBody User newUser) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        return userRepository.save(newUser);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setSuccess(true);
+        apiResponse.setResponseObject(userRepository.save(newUser));
+        return apiResponse;
+    }
+
+    @GetMapping(value = "/{id}")
+    public APIResponse getUserById(@PathVariable("id") Long id) {
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setSuccess(true);
+        apiResponse.setResponseObject(userRepository.findOne(id));
+        return apiResponse;
+
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public APIResponse deleteUserById(@PathVariable("id") Long id) {
+        userRepository.delete(id);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setSuccess(true);
+        return apiResponse;
+    }
+
+    @PutMapping(value = "/{id}")
+    public APIResponse updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+        User oldUser = userRepository.findById(id);
+        oldUser.setUsername(user.getUsername());
+        oldUser.setPassword(user.getPassword());
+        userRepository.save(oldUser);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setSuccess(true);
+        return apiResponse;
     }
 }
