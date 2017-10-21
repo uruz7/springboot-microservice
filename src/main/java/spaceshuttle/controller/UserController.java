@@ -1,7 +1,6 @@
 package spaceshuttle.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
@@ -28,7 +27,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public @ResponseBody
     APIResponse addUser(@RequestBody User newUser) {
         // @ResponseBody means the returned String is the response, not a view name
@@ -36,17 +35,6 @@ public class UserController {
         APIResponse apiResponse = new APIResponse();
         apiResponse.setSuccess(true);
         apiResponse.setErrorCode("123");
-        apiResponse.setResponseObject(userRepository.save(newUser));
-        return apiResponse;
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
-    public @ResponseBody
-    APIResponse addUserByXML(@RequestBody User newUser) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setSuccess(true);
         apiResponse.setResponseObject(userRepository.save(newUser));
         return apiResponse;
     }
