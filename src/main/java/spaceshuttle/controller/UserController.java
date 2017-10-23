@@ -34,7 +34,6 @@ public class UserController {
         // @RequestParam means it is a parameter from the GET or POST request
         APIResponse apiResponse = new APIResponse();
         apiResponse.setSuccess(true);
-        apiResponse.setErrorCode("123");
         apiResponse.setResponseObject(userRepository.save(newUser));
         return apiResponse;
     }
