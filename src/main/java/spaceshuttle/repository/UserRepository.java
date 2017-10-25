@@ -1,13 +1,9 @@
 package spaceshuttle.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import spaceshuttle.model.User;
 
-import java.util.List;
-
-public interface UserRepository extends CrudRepository<User, Long> {
-
-    List<User> findByUsername(String username);
+public interface UserRepository extends JpaRepository<User, Long> {
 
     User findById(Long id);
 }
