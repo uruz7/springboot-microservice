@@ -3,6 +3,7 @@ package spaceshuttle;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +12,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
+import spaceshuttle.repository.UserRepository;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -23,35 +26,75 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("classpath:h2-db.properties")
 public class UserControllerTest {
 
+    private static final String USERS_URI_WITH_ID = "/users/{id}";
+    private static final String USERS_URI = "/users";
+
     @Autowired
     private MockMvc mvc;
 
-    @Test
-    public void getHello() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/users/hello").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Greetings from Spring Boot!")));
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void testGetUserById() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/users/5").accept(MediaType.APPLICATION_JSON))
+        User user = addTestUser();
+        APIResponse apiResponse = APIResponseMother.getDefaultAPIResponse();
+        apiResponse.setResponseObject(user);
+        mvc.perform(MockMvcRequestBuilders.get(USERS_URI_WITH_ID, user.getId()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("{\"success\":true,\"errorCode\":null,\"errorMessage\":null,\"responseObject\":null}")));
-
+                .andExpect(content().string(equalTo(asJsonString(apiResponse))));
+        cleanUpUsers();
     }
 
     @Test
     public void testAddUser() throws Exception {
-        User user = new User();
-        user.setPassword("password");
-        user.setUsername("username");
-        mvc.perform(MockMvcRequestBuilders.post("/users").contentType(MediaType.APPLICATION_JSON_UTF8)
+        User user = UserMother.getDefaultUser();
+        User savedUser = new User();
+        BeanUtils.copyProperties(user, savedUser);
+        APIResponse apiResponse = APIResponseMother.getDefaultAPIResponse();
+        apiResponse.setResponseObject(savedUser);
+        savedUser.setId(1L);
+        mvc.perform(MockMvcRequestBuilders.post(USERS_URI).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("{\"success\":true,\"errorCode\":null,\"errorMessage\":null,\"responseObject\":{\"id\":1,\"username\":\"username\",\"password\":\"password\"}}")));
+                .andExpect(content().string(equalTo(asJsonString(apiResponse))));
+        cleanUpUsers();
+    }
 
+
+    @Test
+    public void testDeleteUser() throws Exception {
+        User user = addTestUser();
+        APIResponse apiResponse = APIResponseMother.getDefaultAPIResponse();
+        mvc.perform(MockMvcRequestBuilders.delete(USERS_URI_WITH_ID, user.getId()).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(asJsonString(user))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo(asJsonString(apiResponse))));
+    }
+
+    @Test
+    public void testEditUser() throws Exception {
+        User user = addTestUser();
+        user.setUsername("newUserName");
+        APIResponse apiResponse = APIResponseMother.getDefaultAPIResponse();
+        apiResponse.setResponseObject(user);
+        mvc.perform(MockMvcRequestBuilders.put(USERS_URI_WITH_ID, user.getId()).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(asJsonString(user))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo(asJsonString(apiResponse))));
+        cleanUpUsers();
+    }
+
+    private User addTestUser() {
+        User user = UserMother.getDefaultUser();
+        return userRepository.save(user);
+    }
+
+    private void cleanUpUsers() {
+        userRepository.deleteAll();
     }
 
     public static String asJsonString(final Object obj) {
