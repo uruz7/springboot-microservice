@@ -30,8 +30,7 @@ public class Application {
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {
-                Object object = ctx.getBean(beanName);
-                System.out.println(beanName + "," + object.getClass().getName());
+                System.out.println(beanName);
             }
             repository.deleteAll();
 
