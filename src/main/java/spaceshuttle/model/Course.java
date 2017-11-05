@@ -1,16 +1,18 @@
 package spaceshuttle.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.Set;
 
-/**
- * Created by seabookchen on 22/08/2017.
- */
 @Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY, TABLE, AUTO
@@ -26,7 +28,7 @@ public class Course {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "course_category", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
     private Set<Category> categories;
 
     public Course() {

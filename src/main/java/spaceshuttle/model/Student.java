@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 import java.util.Set;
 
 @Entity
-public class Instructor {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,10 +31,10 @@ public class Instructor {
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Course> courses;
 
-    public Instructor() {
+    public Student() {
     }
 
-    public Instructor(String firstName, String lastName, String fullName, String linkedInProfileUrl, String bio, Set<Course> courses) {
+    public Student(String firstName, String lastName, String fullName, String linkedInProfileUrl, String bio, Set<Course> courses) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
