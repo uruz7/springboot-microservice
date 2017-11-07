@@ -1,19 +1,24 @@
 package spaceshuttle.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class Class {
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", length = 30)
+
     private String name;
 
+
+    @ManyToMany(mappedBy = "projects")
+    private Set<Employee> employees = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -29,5 +34,13 @@ public class Class {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 }

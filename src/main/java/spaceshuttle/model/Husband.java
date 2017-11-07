@@ -1,19 +1,22 @@
 package spaceshuttle.model;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Class {
+public class Husband {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", length = 30)
+
     private String name;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Wife wife;
 
     public Long getId() {
         return id;
@@ -29,5 +32,13 @@ public class Class {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Wife getWife() {
+        return wife;
+    }
+
+    public void setWife(Wife wife) {
+        this.wife = wife;
     }
 }
