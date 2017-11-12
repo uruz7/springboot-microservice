@@ -20,8 +20,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = UserController.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:h2-db.properties")
 public class UserControllerTest {

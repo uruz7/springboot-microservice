@@ -1,6 +1,7 @@
 package spaceshuttle;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Arrays;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,12 @@ import spaceshuttle.model.Customer;
 import spaceshuttle.repository.CustomerRepository;
 
 import java.util.Arrays;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import spaceshuttle.handler.EchoHandler;
+
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @SpringBootApplication
 @ComponentScan("spaceshuttle.*")
@@ -62,5 +69,8 @@ public class Application {
 
         };
     }
-
+    @Bean
+    public RouterFunction<ServerResponse> monoRouterFunction(EchoHandler echoHandler) {
+        return route(GET("/echo"), echoHandler::echo);
+    }
 }
