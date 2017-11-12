@@ -1,6 +1,7 @@
 package spaceshuttle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import spaceshuttle.model.Role;
@@ -12,9 +13,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 
-@Service("userService")
-//@Profile("default")
-public class UserServiceImpl implements UserService {
+@Service("facebookUserService")
+//@Profile("facebook")
+public class FacebookUserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;

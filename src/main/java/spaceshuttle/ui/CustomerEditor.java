@@ -1,4 +1,4 @@
-package spaceshuttle;
+package spaceshuttle.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
