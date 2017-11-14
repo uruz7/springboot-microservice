@@ -1,7 +1,6 @@
 package spaceshuttle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,9 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 
 
-@Service("userService")
-//@Profile("default")
-public class UserServiceImpl implements UserService {
+@Service("facebookUserService")
+//@Profile("facebook")
+public class FacebookUserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -41,11 +40,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByExample(User example) {
-        return userRepository.findAll(Example.of(example));
+        return null;
     }
 
     @Override
     public List<User> findBySpecification(Specification<User> specification) {
-        return userRepository.findAll(specification);
+        return null;
     }
 }

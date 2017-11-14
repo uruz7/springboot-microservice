@@ -1,4 +1,4 @@
-package spaceshuttle;
+package spaceshuttle.ui;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.FontAwesome;
