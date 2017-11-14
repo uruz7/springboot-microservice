@@ -9,21 +9,32 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 
-public class UserSpecification {
-    private User user;
+public class UserSpecification implements Specification<User> {
 
-    public UserSpecification(User user) {
-        super();
-        this.user = user;
+    private SearchCriteria criteria;
+
+    public UserSpecification(SearchCriteria criteria) {
+        this.criteria = criteria;
     }
 
-    public Specification<User> findByUsername() {
-        return new Specification<User>() {
-            @Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get(user.getUsername()), user.getUsername());
-            }
-        };
+    @Override
+    public Predicate toPredicate
+            (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
+        if (criteria.getOperation().equalsIgnoreCase(">")) {
+            return builder.greaterThanOrEqualTo(
+                    root.<String>get(criteria.getKey()), criteria.getValue().toString());
+        } else if (criteria.getOperation().equalsIgnoreCase("<")) {
+            return builder.lessThanOrEqualTo(
+                    root.<String>get(criteria.getKey()), criteria.getValue().toString());
+        } else if (criteria.getOperation().equalsIgnoreCase(":")) {
+            if (root.get(criteria.getKey()).getJavaType() == String.class) {
+                return builder.like(
+                        root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
+            } else {
+                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+            }
+        }
+        return null;
     }
 }

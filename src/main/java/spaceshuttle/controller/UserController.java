@@ -3,6 +3,7 @@ package spaceshuttle.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
+import spaceshuttle.repository.SearchCriteria;
 import spaceshuttle.repository.UserRepository;
+import spaceshuttle.repository.UserSpecification;
 import spaceshuttle.service.UserService;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -48,6 +52,24 @@ public class UserController {
     Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
+    }
+
+    @GetMapping(path = "/user/{username}")
+    public @ResponseBody
+    List<User> getByUsername(@PathVariable("username") String username) {
+        // This returns a JSON or XML with the users
+        UserSpecification spec =
+                new UserSpecification(new SearchCriteria("username", ":", username));
+        return userRepository.findAll(spec);
+    }
+
+    @GetMapping(path = "/user/example/{username}")
+    public @ResponseBody
+    List<User> getByExample(@PathVariable("username") String username) {
+        User user = new User();
+        user.setUsername(username);
+        // This returns a JSON or XML with the users
+        return userRepository.findAll(Example.of(user));
     }
 
     @PostMapping

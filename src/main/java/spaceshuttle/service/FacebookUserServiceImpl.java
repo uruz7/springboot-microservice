@@ -1,6 +1,7 @@
 package spaceshuttle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import spaceshuttle.model.Role;
@@ -39,6 +40,11 @@ public class FacebookUserServiceImpl implements UserService {
 
     @Override
     public List<User> findByExample(User example) {
+        return null;
+    }
+
+    @Override
+    public List<User> findBySpecification(Specification<User> specification) {
         return null;
     }
 }
