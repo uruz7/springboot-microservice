@@ -1,7 +1,6 @@
 package spaceshuttle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import spaceshuttle.model.Role;
@@ -11,6 +10,7 @@ import spaceshuttle.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 
 @Service("facebookUserService")
@@ -37,4 +37,8 @@ public class FacebookUserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public List<User> findByExample(User example) {
+        return null;
+    }
 }

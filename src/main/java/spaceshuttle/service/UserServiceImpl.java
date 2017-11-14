@@ -1,6 +1,8 @@
 package spaceshuttle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import spaceshuttle.model.Role;
@@ -10,6 +12,7 @@ import spaceshuttle.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 
 @Service("userService")
@@ -36,4 +39,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public List<User> findByExample(User example) {
+        return userRepository.findAll(Example.of(example));
+    }
+
+    @Override
+    public List<User> findBySpecification(Specification<User> specification) {
+        return userRepository.findAll(specification);
+    }
 }
