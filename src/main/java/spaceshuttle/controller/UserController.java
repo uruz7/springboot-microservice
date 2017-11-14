@@ -15,6 +15,7 @@ import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
 import spaceshuttle.repository.UserRepository;
 
+import java.util.Arrays;
 import java.util.Map;
 
 @Controller
@@ -32,6 +33,10 @@ public class UserController {
     @RequestMapping("/welcome")
     public String welcome(Map<String, Object> model) {
         model.put("message", this.message);
+        User user = new User();
+        user.setUsername("Charlie");
+        model.put("userList", Arrays.asList(user));
+        model.put("user", user);
         return "welcome";
     }
 
@@ -39,7 +44,7 @@ public class UserController {
     public @ResponseBody
     Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
-        return userRepository.findAll();
+        return userRepository.findAllUsers();
     }
 
     @PostMapping

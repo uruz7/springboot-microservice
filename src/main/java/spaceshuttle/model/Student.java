@@ -1,29 +1,34 @@
 package spaceshuttle.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.Set;
 
 @Entity
-@DiscriminatorValue("student")
+//@DiscriminatorValue("student")
+@PrimaryKeyJoinColumn(name = "id")
 public class Student extends User {
 
 
-    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Course> courses;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "class_student", joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
+
+    private Set<Class> classes;
 
     public Student() {
     }
 
-    public Set<Course> getCourses() {
-        return courses;
+    public Set<Class> getClasses() {
+        return classes;
     }
 
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public void setClasses(Set<Class> classes) {
+        this.classes = classes;
     }
-
 }

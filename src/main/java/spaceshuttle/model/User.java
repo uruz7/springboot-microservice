@@ -6,9 +6,6 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +15,14 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue(value = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
+//@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorValue(value = "user")
+//@NamedQuery(name = "User.findAllUsers", query = "select u from User u")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
