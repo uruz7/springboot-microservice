@@ -44,7 +44,7 @@ public class User {
     private String password;
     private String linkedInProfileUrl;
     private String bio;
-    private boolean active;
+    private int active;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -121,11 +121,11 @@ public class User {
         this.roles = roles;
     }
 
-    public boolean isActive() {
+    public int getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(int active) {
         this.active = active;
     }
 }
