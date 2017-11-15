@@ -3,7 +3,6 @@ package spaceshuttle.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +33,7 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     @Qualifier("userService")
-    private UserService user1Service;
+    private UserService userService;
     @Autowired
     @Qualifier("facebookUserService")
     private UserService facebookUserService;
@@ -65,16 +64,24 @@ public class UserController {
         // This returns a JSON or XML with the users
         UserSpecification spec =
                 new UserSpecification(new SearchCriteria("username", ":", username));
-        return userRepository.findAll(spec);
+        return userService.findBySpecification(spec);
     }
 
     @GetMapping(path = "/user/example/{username}")
     public @ResponseBody
-    List<User> getByExample(@PathVariable("username") String username) {
+    List<User> getByExampleUsername(@PathVariable("username") String username) {
         User user = new User();
         user.setUsername(username);
+        user.setEmail("test@test.com");
+
         // This returns a JSON or XML with the users
-        return userRepository.findAll(Example.of(user));
+        return userService.findByExample(user);
+    }
+
+    @PostMapping(path = "/user/example")
+    public @ResponseBody
+    List<User> getByExample(@RequestBody User user) {
+        return userService.findByExample(user);
     }
 
     @PostMapping

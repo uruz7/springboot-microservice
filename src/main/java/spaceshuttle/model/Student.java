@@ -1,17 +1,17 @@
 package spaceshuttle.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.Set;
 
 @Entity
-//@DiscriminatorValue("student")
-@PrimaryKeyJoinColumn(name = "id")
+@DiscriminatorValue("student")
+//@PrimaryKeyJoinColumn(name = "id")
 public class Student extends User {
 
 
