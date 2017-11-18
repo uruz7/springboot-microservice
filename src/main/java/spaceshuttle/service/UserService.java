@@ -4,6 +4,7 @@ import org.springframework.data.jpa.domain.Specification;
 import spaceshuttle.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     void saveUser(User user);
@@ -13,4 +14,7 @@ public interface UserService {
     List<User> findBySpecification(Specification<User> specification);
 
     User findUserByEmail(String email);
+
+    Optional<User> findUserByEmailOptional(String email);
+
 }

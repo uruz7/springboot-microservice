@@ -2,6 +2,7 @@ package spaceshuttle.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import spaceshuttle.repository.UserRepository;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service("userService")
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setActive(true);
         Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
@@ -41,11 +44,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByExample(User example) {
-        return userRepository.findAll(Example.of(example));
+        Sort.Order usernameDescOrder = new Sort.Order(Sort.Direction.DESC, "username");
+        Sort.Order nameAscOrder = new Sort.Order(Sort.Direction.ASC, "name");
+        Sort sort = new Sort(usernameDescOrder, nameAscOrder);
+        return userRepository.findAll(Example.of(example), sort);
     }
 
     @Override
     public List<User> findBySpecification(Specification<User> specification) {
         return userRepository.findAll(specification);
+    }
+
+    @Override
+    public Optional<User> findUserByEmailOptional(String email) {
+        return Optional.ofNullable(findUserByEmail(email));
     }
 }

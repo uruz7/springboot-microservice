@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import spaceshuttle.model.Role;
 import spaceshuttle.model.User;
 import spaceshuttle.repository.RoleRepository;
 import spaceshuttle.repository.UserRepository;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service("facebookUserService")
@@ -32,10 +30,6 @@ public class FacebookUserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Role userRole = roleRepository.findByRole("ADMIN");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        userRepository.save(user);
     }
 
     @Override
@@ -45,6 +39,11 @@ public class FacebookUserServiceImpl implements UserService {
 
     @Override
     public List<User> findBySpecification(Specification<User> specification) {
+        return null;
+    }
+
+    @Override
+    public Optional<User> findUserByEmailOptional(String email) {
         return null;
     }
 }

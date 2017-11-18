@@ -41,15 +41,6 @@ public class UserController {
     @Value("${welcome.message:test}")
     private String message = "Hello World";
 
-    @RequestMapping("/welcome")
-    public String welcome(Map<String, Object> model) {
-        model.put("message", this.message);
-        User user = new User();
-        user.setUsername("Charlie");
-        model.put("userList", Arrays.asList(user));
-        model.put("user", user);
-        return "welcome";
-    }
 
     @GetMapping(path = "/all")
     public @ResponseBody
@@ -63,7 +54,9 @@ public class UserController {
     List<User> getByUsername(@PathVariable("username") String username) {
         // This returns a JSON or XML with the users
         UserSpecification spec =
-                new UserSpecification(new SearchCriteria("username", ":", username));
+                new UserSpecification(new SearchCriteria("username", ":", username),
+                        new SearchCriteria("name", ":", username)
+                );
         return userService.findBySpecification(spec);
     }
 
