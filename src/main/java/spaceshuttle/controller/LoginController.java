@@ -81,4 +81,8 @@ public class LoginController {
     }
 
 
+    @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
+    public String accessDenied() {
+        return "access-denied";
+    }
 }
