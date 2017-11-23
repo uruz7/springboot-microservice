@@ -17,6 +17,10 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'docker'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
 
 jar {
     baseName = 'spring-boot-microservice'
@@ -72,5 +76,43 @@ task buildDocker(type: Docker, dependsOn: build) {
             from jar
             into "${stageDir}/target"
         }
+    }
+}
+
+findbugs {
+    ignoreFailures = true
+    toolVersion = "3.0.0"
+    sourceSets = [sourceSets.main]
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = "max"
+}
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+pmd {
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
+    reportsDir = file("$project.buildDir/reports/pmd")
+    ruleSets = [
+            "basic",
+            "braces"
+    ]
+}
+
+pmdMain {
+    ruleSets = ["java-basic", "java-strings", "java-braces"]
+}
+
+checkstyle {
+    configFile = new File(rootDir, "config/checkstyle.xml")
+}
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/reports/jacoco"
     }
 }
