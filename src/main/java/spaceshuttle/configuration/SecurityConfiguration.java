@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import spaceshuttle.service.MyUserDetailsService;
+import spaceshuttle.service.RepositoryUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    private RepositoryUserDetailsService userDetailsService;
 
     @Autowired
     private DaoAuthenticationProvider authenticationProvider;

@@ -5,12 +5,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import spaceshuttle.model.MyUserPrincipal;
+import spaceshuttle.model.UserPrincipal;
 import spaceshuttle.model.User;
 import spaceshuttle.repository.UserRepository;
 
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class RepositoryUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -21,6 +21,6 @@ public class MyUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
-        return new MyUserPrincipal(user);
+        return new UserPrincipal(user);
     }
 }

@@ -3,13 +3,12 @@ package spaceshuttle.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import spaceshuttle.model.MyUserPrincipal;
+import spaceshuttle.model.UserPrincipal;
 import spaceshuttle.model.User;
 import spaceshuttle.service.UserService;
 
@@ -71,8 +70,8 @@ public class LoginController {
 
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
     public ModelAndView home() {
-        MyUserPrincipal userDetails =
-                (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userDetails =
+                (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         modelAndView.addObject("userName", "Welcome " + userDetails.getUsername());
