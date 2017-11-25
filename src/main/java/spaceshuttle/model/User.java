@@ -18,6 +18,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,7 @@ import java.util.Set;
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "user")
 //@NamedQuery(name = "User.findAllUsers", query = "select u from User u")
-public class User {
+public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
