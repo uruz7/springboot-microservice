@@ -44,6 +44,6 @@ public class FacebookUserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByEmailOptional(String email) {
-        return null;
+        return Optional.empty();
     }
 }
