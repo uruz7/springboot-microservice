@@ -1,16 +1,17 @@
 package spaceshuttle.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import java.util.Set;
 
-/**
- * Created by seabookchen on 22/08/2017.
- */
 @Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY, TABLE, AUTO
@@ -20,13 +21,14 @@ public class Course {
 
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "instructor_id", referencedColumnName = "id")
-    private Instructor instructor;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "course_instructor", joinColumns = @JoinColumn(name = "instructor_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
+    private Set<Instructor> instructors;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "course_category", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
     private Set<Category> categories;
 
     public Course() {
@@ -62,12 +64,12 @@ public class Course {
         this.description = description;
     }
 
-    public Instructor getInstructor() {
-        return instructor;
+    public Set<Instructor> getInstructors() {
+        return instructors;
     }
 
-    public void setInstructor(Instructor instructor) {
-        this.instructor = instructor;
+    public void setInstructors(Set<Instructor> instructors) {
+        this.instructors = instructors;
     }
 
     public Set<Category> getCategories() {

@@ -1,16 +1,23 @@
 package spaceshuttle.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import spaceshuttle.model.Course;
 import spaceshuttle.repository.CourseRepository;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/ols/api/v1/")
+@RequestMapping("/api/v1/")
 public class CourseController {
 
     @Autowired
@@ -54,12 +61,12 @@ public class CourseController {
         // return CourseMockData.deleteCourse(id);
         Course course = courseRepository.findOne(id);
         courseRepository.delete(course);
-
         return course;
     }
 
-    @GetMapping(value="courses", params="name")
+    @GetMapping(value = "courses", params = "name")
     public Collection<Course> get(@RequestParam String name) {
-        return courseRepository.findByName(name);
+        return Collections.EMPTY_LIST;
+//        return courseRepository.iwanttoFindByName1(name);
     }
 }

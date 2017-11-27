@@ -16,6 +16,8 @@ import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
 import spaceshuttle.repository.UserRepository;
 
+import java.util.HashSet;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,6 +42,7 @@ public class UserControllerTest {
         User user = addTestUser();
         APIResponse apiResponse = APIResponseMother.getDefaultAPIResponse();
         apiResponse.setResponseObject(user);
+        user.setRoles(new HashSet<>());
         mvc.perform(MockMvcRequestBuilders.get(USERS_URI_WITH_ID, user.getId()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo(asJsonString(apiResponse))));
@@ -53,7 +56,7 @@ public class UserControllerTest {
         BeanUtils.copyProperties(user, savedUser);
         APIResponse apiResponse = APIResponseMother.getDefaultAPIResponse();
         apiResponse.setResponseObject(savedUser);
-        savedUser.setId(2L);
+//        savedUser.setId(2L);
         mvc.perform(MockMvcRequestBuilders.post(USERS_URI).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(user))
                 .accept(MediaType.APPLICATION_JSON))
@@ -80,6 +83,7 @@ public class UserControllerTest {
         user.setUsername("newUserName");
         APIResponse apiResponse = APIResponseMother.getDefaultAPIResponse();
         apiResponse.setResponseObject(user);
+        user.setRoles(new HashSet<>());
         mvc.perform(MockMvcRequestBuilders.put(USERS_URI_WITH_ID, user.getId()).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(user))
                 .accept(MediaType.APPLICATION_JSON))
