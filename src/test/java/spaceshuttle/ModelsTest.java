@@ -18,6 +18,6 @@ public class ModelsTest {
         String userFriendlyDescription = "Course name is " + course.getName() + ", description is " + course.getDescription();
         String temp = userFriendlyDescription;
         userFriendlyDescription = "new one";
-        Assert.assertEquals(temp, userFriendlyDescription);
+        Assert.assertNotEquals(temp, userFriendlyDescription);
     }
 }

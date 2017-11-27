@@ -3,7 +3,6 @@ package spaceshuttle.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
@@ -14,9 +13,8 @@ import spaceshuttle.service.UserService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path = "/users") // This means URL's start with /user (after Application path)
-
 public class UserController {
 
     @Autowired // This means to get the bean called userRepository
@@ -80,7 +78,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public APIResponse getUserById(@PathVariable("id") Long id) {
+    public @ResponseBody
+    APIResponse getUserById(@PathVariable("id") Long id) {
         APIResponse apiResponse = new APIResponse();
         apiResponse.setSuccess(true);
         apiResponse.setResponseObject(userRepository.findOne(id));

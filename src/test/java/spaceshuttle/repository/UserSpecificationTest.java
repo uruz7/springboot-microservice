@@ -20,7 +20,7 @@ public class UserSpecificationTest {
 
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testException() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {

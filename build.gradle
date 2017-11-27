@@ -137,3 +137,5 @@ jacocoTestReport {
         html.destination "${buildDir}/reports/jacoco"
     }
 }
+
+check.dependsOn jacocoTestReport
