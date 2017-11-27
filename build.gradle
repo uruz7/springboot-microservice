@@ -132,9 +132,8 @@ checkstyle {
 }
 jacocoTestReport {
     reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "${buildDir}/reports/jacoco"
+        xml.enabled true
+        html.enabled = true
     }
 }
 
