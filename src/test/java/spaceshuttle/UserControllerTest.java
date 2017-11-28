@@ -1,8 +1,13 @@
 package spaceshuttle;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,13 +15,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import spaceshuttle.controller.UserController;
 import spaceshuttle.model.APIResponse;
 import spaceshuttle.model.User;
 import spaceshuttle.repository.UserRepository;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -36,6 +45,26 @@ public class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Mock
+    private UserRepository mockUserRepository;
+
+    private UserController subject;
+
+    @Before
+    public void setup() {
+        subject = new UserController();
+        MockitoAnnotations.initMocks(this);
+        ReflectionTestUtils.setField(subject, "userRepository", mockUserRepository);
+
+    }
+
+    @Test
+    public void testGetAllUsers() {
+        List<User> allUsers = Arrays.asList(UserMother.getDefaultUser());
+        Mockito.when(mockUserRepository.findAllUsers()).thenReturn(allUsers);
+        Assert.assertEquals(subject.getAllUsers(), allUsers);
+    }
 
     @Test
     public void testGetUserById() throws Exception {
