@@ -17,4 +17,4 @@ docker run -p 8080:8080 -t au.com.jiangren/spring-boot-microservice:1.0-SNAPSHOT
 If you are using Intellij, you can install Docker Integration plugin and run
 
 [![Codecov](https://img.shields.io/codecov/c/github/YixiuJiang/springboot-microservice.svg)]()
-[![Travis](https://img.shields.io/travis/YixiuJiang/springboot-microservice.svg)]()
+[![Travis](https://img.shields.io/travis/YixiuJiang/springboot-microservice.svg)](https://travis-ci.org/YixiuJiang/springboot-microservice)
